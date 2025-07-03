@@ -6,7 +6,7 @@
 /*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 22:47:29 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/03 19:43:25 by sradosav         ###   ########.fr       */
+/*   Updated: 2025/07/03 21:47:43 by sradosav         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,20 @@ static int	handle_append(t_exec *exec, t_token *tmp)
 	return (0);
 }
 
-static int	handle_heredoc(t_exec *exec, t_token *tmp, t_shell *shell)
+static int	handle_heredoc(t_exec *exec, t_token *tmp)
 {
 	if (exec->fd_in > 0)
 		close(exec->fd_in);
 	exec->fd_in = 0;
 	if (exec->heredoc)
 		free(exec->heredoc);
-	exec->heredoc = do_heredoc((const t_token *)tmp->next, (const t_shell *)shell);
+	exec->heredoc = do_heredoc((const t_token *)tmp->next);
 	exec->heredoc_bool = true;
 	exec->fd_in = 0;
 	return (0);
 }
 
-t_token	*handle_redir(t_exec *exec, t_token *tmp, t_shell *shell)
+t_token	*handle_redir(t_exec *exec, t_token *tmp)
 {
 	int	skip;
 
@@ -77,7 +77,7 @@ t_token	*handle_redir(t_exec *exec, t_token *tmp, t_shell *shell)
 	else if (tmp->type == APPEND)
 		skip = handle_append(exec, tmp);
 	else if (tmp->type == HDOC)
-		skip = handle_heredoc(exec, tmp, shell);
+		skip = handle_heredoc(exec, tmp);
 	if (skip)
 	{
 		if (exec->fd_in > 0)

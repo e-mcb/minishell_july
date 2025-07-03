@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_to_sort.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 22:39:57 by mzutter           #+#    #+#             */
-/*   Updated: 2025/06/30 22:50:24 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/03 21:48:56 by sradosav         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	create_exec(t_shell *shell)
 		}
 		if (is_redir(tmp) || tmp->type == HDOC)
 			{
-				tmp = handle_redir(last, tmp, shell);
+				tmp = handle_redir(last, tmp);
 				if (!tmp)
 					break ;
 			}

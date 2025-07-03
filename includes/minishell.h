@@ -6,7 +6,7 @@
 /*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:31:47 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/03 19:48:58 by sradosav         ###   ########.fr       */
+/*   Updated: 2025/07/03 21:48:07 by sradosav         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ char		**split_keep_separators(const char *s, bool (*is_sep)(char),
 char		*pathfinder(t_shell *shell, t_exec *current);
 void		exec_loop(t_shell *shell);
 char		*do_heredoc(const t_token *token);
-t_token		*handle_redir(t_exec *exec, t_token *tmp, t_shell *shell);
+t_token		*handle_redir(t_exec *exec, t_token *tmp);
 void		create_exec(t_shell *shell);
 void		execute_command(t_shell *shell, t_exec *tmp);
 pid_t		safe_fork(t_shell *shell);
