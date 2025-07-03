@@ -15,3 +15,10 @@ Error (infile): No such file or directory
 [1]    683055 segmentation fault  ./minishell
 mzutter@k0r3p2:Desktop/idkshell ‹main*›$ 
 erreur redir invalide + commande? skip to pipe a revoir
+
+
+
+
+
+
+SEGFAULT SUR TOKEN DE REDIR SEUL

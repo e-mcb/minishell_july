@@ -25,6 +25,7 @@ SRCS = main.c \
 	$(UTILS_DIR)/env_utils2.c \
 	$(UTILS_DIR)/exec_utils1.c \
 	$(UTILS_DIR)/exec_utils2.c \
+	$(UTILS_DIR)/string_utils3.c \
 	$(TOKENIZER_DIR)/tokenizer.c \
 	$(TOKENIZER_DIR)/split2.c \
 	$(TOKENIZER_DIR)/refine_token.c \
@@ -47,23 +48,29 @@ SRCS = main.c \
 	$(EXEC_DIR)/prep_exec.c \
 	$(EXEC_DIR)/redirs.c \
 	$(EXEC_DIR)/heredocs.c \
-	$(EXEC_DIR)/executing.c \
+	$(EXEC_DIR)/executing.c
 
-# Create list of object files in the objects/ dir
+# Object files
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
-# Executable name
+# Executable names
 NAME = minishell
+TMP_NAME = /tmp/$(NAME)
 
-# Default target
-all: $(NAME)
+# Default target: build both executables
+all: $(NAME) $(TMP_NAME)
 
-# Link everything into the final executable
+# Build main executable
 $(NAME): $(OBJS)
 	$(MAKE) -C $(LIBFT_DIR)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_DIR)/libft.a -o $(NAME) $(LDFLAGS)
 
-# Compile .c files into objects/ path
+# Copy to /tmp
+$(TMP_NAME): $(NAME)
+	@echo "Copying $(NAME) to /tmp"
+	cp $(NAME) $(TMP_NAME)
+
+# Compile source files to object files
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -73,12 +80,12 @@ clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
 	rm -rf $(OBJ_DIR)
 
-# Full clean
+# Full clean (includes binaries)
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
-	rm -f $(NAME)
+	rm -f $(NAME) $(TMP_NAME)
 
-# Rebuild all
+# Rebuild everything
 re: fclean all
 
 .PHONY: all clean fclean re

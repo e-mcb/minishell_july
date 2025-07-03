@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 21:51:01 by mzutter           #+#    #+#             */
-/*   Updated: 2025/06/29 22:02:45 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/04 00:07:07 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,17 @@ void	execute_command(t_shell *shell, t_exec *tmp)
 	char	*path;
 
 	i = 2;
-	path = pathfinder(shell, tmp);
+	if (ft_strcmp(tmp->arr[0], "minishell") == 0 || ft_strcmp(tmp->arr[0], "./minishell") == 0)
+		path = (ft_strdup("/tmp/minishell"));
+	else
+		path = pathfinder(shell, tmp);
 	if (path == NULL)
+	{
+		ft_putstr_fd("Command not found ", 2);
+		ft_putstr_fd(tmp->arr[0], 2);
+		ft_putstr_fd("\n", 2);
 		ft_clean_exit(NULL, shell, NULL, NULL);
+	}
 	while (++i < 1023)
 		close(i);
 	execve(path, tmp->arr, shell->env_arr);

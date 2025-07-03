@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 11:16:07 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/03 18:38:06 by sradosav         ###   ########.fr       */
+/*   Updated: 2025/07/04 00:56:57 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,34 @@ static t_shell	*init_shell(t_shell *shell, char **envp)
 	return (shell);
 }
 
+// static void	ft_parsing(char *input, t_shell *shell)
+// {
+// 	int		i;
+
+// 	i = 0;
+// 	whitespace_to_space(input);
+// 	shell->splitted = ft_split2(input, ' ');
+// 	if (shell->splitted == NULL)
+// 		ft_clean_exit(input, shell, NULL, NULL);
+// 	free (input);
+// 	while (shell->splitted[i])
+// 	{
+// 		tokenizer(shell, i);
+// 		i++;
+// 	}
+// 	if (shell->splitted != NULL)
+// 		ft_free_str_array(shell->splitted);
+// 	refine_token_type(shell->token);
+// 	expand(shell);
+// 	second_refine_token_type(shell->token);
+// 	shell->splitted = NULL;
+// }
+
+
 static void	ft_parsing(char *input, t_shell *shell)
 {
 	int		i;
+	t_token	*tmp;
 
 	i = 0;
 	whitespace_to_space(input);
@@ -89,6 +114,14 @@ static void	ft_parsing(char *input, t_shell *shell)
 	if (shell->splitted != NULL)
 		ft_free_str_array(shell->splitted);
 	refine_token_type(shell->token);
+	tmp = shell->token;
+	while (tmp)
+	{
+		if (ft_strchr(tmp->value, '\'') != NULL
+		|| ft_strchr(tmp->value, '"') != NULL)
+			tmp->in_quotes = true;
+		tmp = tmp->next;
+	}
 	expand(shell);
 	second_refine_token_type(shell->token);
 	shell->splitted = NULL;

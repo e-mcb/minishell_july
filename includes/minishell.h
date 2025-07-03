@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:31:47 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/03 21:48:07 by sradosav         ###   ########.fr       */
+/*   Updated: 2025/07/04 01:48:14 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_token
 	char			*value;
 	struct s_token	*next;
 	bool			amb_redir;
+	bool			in_quotes;
 }	t_token;
 
 typedef struct s_quote_state
@@ -142,6 +143,7 @@ void		ft_init_var(size_t *i, size_t *count, bool *in_quotes, char *c);
 void		whitespace_to_space(char *str);
 int			ft_strcmp(char *s1, char *s2);
 char		*ft_strndup(char *s, size_t n);
+char 		*remove_quotes(char *input, t_shell *shell);
 
 //misc utils
 void		*ft_realloc(void *ptr, int old_size, int new_size);
@@ -215,7 +217,7 @@ char		**split_keep_separators(const char *s, bool (*is_sep)(char),
 char		*pathfinder(t_shell *shell, t_exec *current);
 void		exec_loop(t_shell *shell);
 char		*do_heredoc(const t_token *token);
-t_token		*handle_redir(t_exec *exec, t_token *tmp);
+t_token		*handle_redir(t_exec *exec, t_token *tmp, t_shell *shell);
 void		create_exec(t_shell *shell);
 void		execute_command(t_shell *shell, t_exec *tmp);
 pid_t		safe_fork(t_shell *shell);
