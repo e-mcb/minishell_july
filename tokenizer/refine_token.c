@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   refine_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 17:12:13 by mzutter           #+#    #+#             */
-/*   Updated: 2025/06/29 22:04:57 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/04 02:19:17 by sradosav         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	is_str_digit(char *str)
-{
-	int	i;
+// static int	is_str_digit(char *str)
+// {
+// 	int	i;
 
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] < '0' || str[i] > '9')
-			return (0);
-		i++;
-	}
-	return (1);
-}
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] < '0' || str[i] > '9')
+// 			return (0);
+// 		i++;
+// 	}
+// 	return (1);
+// }
 
 bool	is_redir(t_token *t)
 {

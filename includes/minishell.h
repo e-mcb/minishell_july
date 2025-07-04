@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:31:47 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/04 01:48:14 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/04 02:16:50 by sradosav         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,5 +232,6 @@ void		handle_heredoc_input(t_exec *tmp, int *pipe_fd);
 int			ft_execsize(t_exec *exec);
 
 void		wait_for_children_to_exit(t_shell *shell, int is_heredoc);
+int			is_str_digit(char *str);
 
 #endif

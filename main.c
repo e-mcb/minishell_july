@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 11:16:07 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/04 00:56:57 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/04 02:40:08 by sradosav         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,53 @@ static char	*prompt(t_shell *shell)
 	}
 }
 
-static t_shell	*init_shell(t_shell *shell, char **envp)
+void	ft_set_shlvl(t_shell *shell, char *shlvl_str)
 {
+	int		value;
+	char	*new_value;
+
+	value = ft_atoi(shlvl_str);
+	if (value >= 999)
+	{
+		ft_putstr_fd("minishell: warning: shell level (", 2);
+		new_value = ft_itoa(value + 1);
+		ft_putstr_fd(new_value, 2);
+		free(new_value);
+		ft_putstr_fd(") too high, resetting to 1\n", 2);
+		value = 1;
+	}
+	else if (value < 0)
+		value = 0;
+	else if (value > 0 && value < 999)
+		value++;
+	new_value = ft_itoa(value);
+	update_or_add("SHLVL", new_value, shell, 1);
+	free(new_value);
+}
+
+static t_shell	*init_shell(t_shell *shell, char **envp)
+{	
+	char	*shlvl_str;
+	int		i;
+
+	
 	shell = malloc(sizeof(t_shell));
 	if (shell == NULL)
 		ft_clean_exit(NULL, NULL, NULL, NULL);
 	shell->env_arr = NULL;
 	shell->splitted = NULL;
 	shell->token = NULL;
-	shell->env = ft_env_to_list(envp, shell);
+	shell->env = ft_env_to_list(envp, shell);	
 	shell->exit_status = 0;
 	if (shell->env == NULL)
 		ft_clean_exit(NULL, shell, NULL, NULL);
 	shell->exec = NULL;
+	shlvl_str = ft_getenv("SHLVL", shell);
+	i = ft_atoi(shlvl_str);
+	if (!shlvl_str || i == 0)
+		update_or_add("SHLVL", "1", shell, 1);
+	else
+		ft_set_shlvl(shell, shlvl_str);
 	return (shell);
 }
 
