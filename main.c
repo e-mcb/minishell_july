@@ -72,7 +72,7 @@ void	ft_set_shlvl(t_shell *shell, char *shlvl_str)
 	}
 	else if (value < 0)
 		value = 0;
-	else if (value > 0 && value < 999)
+	else if (value >= 0 && value < 999)
 		value++;
 	new_value = ft_itoa(value);
 	update_or_add("SHLVL", new_value, shell, 1);
@@ -82,8 +82,6 @@ void	ft_set_shlvl(t_shell *shell, char *shlvl_str)
 static t_shell	*init_shell(t_shell *shell, char **envp)
 {	
 	char	*shlvl_str;
-	int		i;
-
 	
 	shell = malloc(sizeof(t_shell));
 	if (shell == NULL)
@@ -97,8 +95,7 @@ static t_shell	*init_shell(t_shell *shell, char **envp)
 		ft_clean_exit(NULL, shell, NULL, NULL);
 	shell->exec = NULL;
 	shlvl_str = ft_getenv("SHLVL", shell);
-	i = ft_atoi(shlvl_str);
-	if (!shlvl_str || i == 0)
+	if (!shlvl_str)
 		update_or_add("SHLVL", "1", shell, 1);
 	else
 		ft_set_shlvl(shell, shlvl_str);
