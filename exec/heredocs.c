@@ -36,7 +36,9 @@ char	*do_heredoc(const t_token *token, t_shell *shell)
 			char *input = readline("> ");
 			if (!input)
 			{
-				ft_putstr_fd("minishell: warning: here-document delimited by end-of-file.\n", 2);
+				ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted '", 2);
+				ft_putstr_fd(token->value, 2);
+				ft_putstr_fd("')\n'", 2);
 				break ;
 			}
 			if (strcmp(input, token->value) == 0)
