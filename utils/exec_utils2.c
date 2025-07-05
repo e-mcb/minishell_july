@@ -34,7 +34,7 @@ void	call_builtin(t_shell *shell, t_exec *cur_exec, char *cmd)
 	if (ft_strcmp(cmd, "cd") == 0)
 		ft_cd(cur_exec->arr, shell);
 	if (ft_strcmp(cmd, "pwd") == 0)
-		ft_pwd(cur_exec->arr, shell, cur_exec->fd_out);
+		ft_pwd(shell, cur_exec->fd_out);
 	if (ft_strcmp(cmd, "export") == 0)
 		ft_export(cur_exec->arr, shell,
 			ft_execsize(shell->exec), cur_exec->fd_out);

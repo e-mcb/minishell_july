@@ -33,16 +33,16 @@ void	ft_cd(char **str, t_shell *shell)
 			ft_putstr_fd("minishell: cd: missing argument\n", 2);
 		else
 			ft_putstr_fd("minishell: cd: too many arguments\n", 2);
-		update_or_add("_", str[count_strings(str) - 1], shell, 0);
+		// update_or_add("_", str[count_strings(str) - 1], shell, 0);
 		return ;
 	}
 	if (chdir(str[1]) != 0)
 	{
 		perror("minishell: cd");
-		update_or_add("_", str[count_strings(str) - 1], shell, 0);
+		// update_or_add("_", str[count_strings(str) - 1], shell, 0);
 		return ;
 	}
-	update_or_add("_", str[count_strings(str) - 1], shell, 0);
+	// update_or_add("_", str[count_strings(str) - 1], shell, 0);
 	update_or_add("OLDPWD", pwd, shell, 0);
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 		update_or_add("PWD", cwd, shell, 0);

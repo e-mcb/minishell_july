@@ -52,7 +52,7 @@ void	ft_unset(char **str, t_shell *shell, int in_pipeline)
 			i++;
 		}
 	}
-	update_or_add("_", str[i - 1], shell, 0);
+	// update_or_add("_", str[i - 1], shell, 0);
 	shell->exit_status = 0;
 }
 

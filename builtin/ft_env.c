@@ -53,7 +53,7 @@ void	ft_env(char **str, t_shell *shell, int fd_out)
 	if (count_strings(str) > 1)
 	{
 		ft_putstr_fd("minishell: env: too many arguments or options\n", 2);
-		update_or_add("_", str[count_strings(str) - 1], shell, 0);
+		// update_or_add("_", str[count_strings(str) - 1], shell, 0);
 		shell->exit_status = 1;
 	}
 	else
@@ -69,7 +69,7 @@ void	ft_env(char **str, t_shell *shell, int fd_out)
 			}
 			env_copy = env_copy->next;
 		}
-		update_or_add("_", str[count_strings(str) - 1], shell, 0);
+		// update_or_add("_", str[count_strings(str) - 1], shell, 0);
 		shell->exit_status = 0;
 	}
 }

@@ -92,7 +92,7 @@ int	ft_echo(char **str, t_shell *shell, int fd_out)
 	}
 	if (newline)
 		ft_putstr_fd("\n", fd_out);
-	update_or_add("_", str[i - 1], shell, 0);
+	// update_or_add("_", str[i - 1], shell, 0);
 	shell->exit_status = 0;
 	return (0);
 }

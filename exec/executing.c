@@ -89,6 +89,8 @@ void	exec_loop(t_shell *shell)
 
 	prev_fd_in = STDIN_FILENO;
 	tmp = shell->exec;
+	if (tmp->arr && ft_execsize(tmp) == 1)
+		update_or_add("_", tmp->arr[count_strings(tmp->arr) - 1], shell, 0);
 	if (tmp->arr && ft_execsize(tmp) == 1 && ft_is_builtin(tmp->arr[0]))
 	{
 		handle_builtin(shell, tmp);

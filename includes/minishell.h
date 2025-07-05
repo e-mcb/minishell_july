@@ -189,7 +189,7 @@ void		ft_cd(char **str, t_shell *shell);
 int			ft_echo(char **str, t_shell *shell, int fd_out);
 void		ft_env(char **str, t_shell *shell, int fd_out);
 int			ft_exit(char **arr, t_shell *shell);
-void		ft_pwd(char **str, t_shell *shell, int fd_out);
+void		ft_pwd(t_shell *shell, int fd_out);
 void		ft_unset(char **str, t_shell *shell, int in_pipeline);
 
 //clean exit

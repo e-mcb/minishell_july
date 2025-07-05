@@ -168,19 +168,19 @@ void	ft_export_vars(char **str, t_shell *shell)
 
 void	ft_export(char **str, t_shell *shell, int in_pipeline, int fd_out)
 {
-	int	str_size;
+	// int	str_size;
 
-	str_size = count_strings(str);
+	// str_size = count_strings(str);
 	if (!str[1])
 	{
-		update_or_add("_", str[str_size - 1], shell, 0);
+		// update_or_add("_", str[str_size - 1], shell, 0);
 		ft_print_export(shell, fd_out);
 		shell->exit_status = 0;
 	}
 	else if (in_pipeline == 1)
 	{
 		shell->exit_status = 0;
-		update_or_add("_", str[str_size - 1], shell, 0);
+		// update_or_add("_", str[str_size - 1], shell, 0);
 		ft_export_vars(str, shell);
 	}
 	else
