@@ -63,7 +63,7 @@ static int	handle_heredoc(t_exec *exec, t_token *tmp, t_shell *shell)
 	if (exec->heredoc)
 		free(exec->heredoc);
 	tmp->next->value = remove_quotes(tmp->next->value, shell);
-	exec->heredoc = do_heredoc((const t_token *)tmp->next);
+	exec->heredoc = do_heredoc((const t_token *)tmp->next, shell);
 	if (tmp->next->in_quotes == false)
 	{
 		tmp_str = exec->heredoc;

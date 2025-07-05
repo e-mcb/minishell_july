@@ -67,14 +67,14 @@ void	wait_for_children_to_exit(t_shell *shell, int is_heredoc)
 				write(1, "Quit (core dumped)\n", 19);
 				shell->exit_status = 130;
 				if (is_heredoc)
-					g_status = -1;
+					g_signal = SIGQUIT;
 			}
 			if (sig == SIGINT)
 			{
 				write(1, "\n", 1);
 				shell->exit_status = 130;
 				if (is_heredoc)
-					g_status = -1;
+					g_signal = SIGINT;
 			}
 		}
 	};
@@ -103,7 +103,7 @@ void	exec_loop(t_shell *shell)
 		}
 		if (tmp->next != NULL)
 			safe_pipe(pipe_fd, shell);
-		g_status = 2;
+		signal(SIGINT, SIG_IGN);
 		pid = safe_fork(shell);
 		if (pid == 0)
 		{
@@ -118,5 +118,5 @@ void	exec_loop(t_shell *shell)
 	if (prev_fd_in != STDIN_FILENO)
 		close(prev_fd_in);
 	wait_for_children_to_exit(shell, 0);
-	g_status = 0;
+	signal(SIGINT, sigint_handler);
 }

@@ -12,18 +12,16 @@
 
 #include "includes/minishell.h"
 
-int	g_status = 0;
+int	g_signal = 0;
 
 void sigint_handler(int sig)
 {
-    (void)sig;
-    if (g_status == 0)
-    {
-        write(1, "\n", 1);
-        rl_on_new_line();
-        rl_replace_line("", 0);
-        rl_redisplay();
-    }
+	g_signal = sig;
+	g_signal = 0;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 static char	*prompt(t_shell *shell)
@@ -171,7 +169,7 @@ static void	minishell_loop(t_shell *shell)
 			continue ;
 		ft_parsing(input, shell);
 		create_exec(shell);
-		if(g_status != -1)
+		if(g_signal != SIGINT)
 		{
 			env_list_to_arr(shell);
 			exec_loop(shell);
@@ -184,7 +182,7 @@ static void	minishell_loop(t_shell *shell)
 		while (i++ < 1023)
 			close(i);
 		shell->env_arr = NULL;
-		g_status = 0;
+		g_signal = 0;
 	}
 }
 

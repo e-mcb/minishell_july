@@ -38,7 +38,7 @@
 # define NOCLOBBER "noclobber not accounted for in minishell\n\
 						syntax error near token pair '>|'"
 
-extern int g_status;
+extern int g_signal;
 
 typedef enum e_token_type
 {
@@ -216,7 +216,7 @@ char		**split_keep_separators(const char *s, bool (*is_sep)(char),
 //exec
 char		*pathfinder(t_shell *shell, t_exec *current);
 void		exec_loop(t_shell *shell);
-char		*do_heredoc(const t_token *token);
+char		*do_heredoc(const t_token *token, t_shell *shell);
 t_token		*handle_redir(t_exec *exec, t_token *tmp, t_shell *shell);
 void		create_exec(t_shell *shell);
 void		execute_command(t_shell *shell, t_exec *tmp);
@@ -233,5 +233,6 @@ int			ft_execsize(t_exec *exec);
 
 void		wait_for_children_to_exit(t_shell *shell, int is_heredoc);
 int			is_str_digit(char *str);
+void 		sigint_handler(int sig);
 
 #endif
