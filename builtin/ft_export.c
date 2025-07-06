@@ -166,7 +166,7 @@ void	ft_export_vars(char **str, t_shell *shell)
 // 		return ;
 // }
 
-void	ft_export(char **str, t_shell *shell, int in_pipeline, int fd_out)
+int	ft_export(char **str, t_shell *shell, int in_pipeline, int fd_out)
 {
 	// int	str_size;
 
@@ -175,16 +175,21 @@ void	ft_export(char **str, t_shell *shell, int in_pipeline, int fd_out)
 	{
 		// update_or_add("_", str[str_size - 1], shell, 0);
 		ft_print_export(shell, fd_out);
-		shell->exit_status = 0;
+		return (0);
 	}
 	else if (in_pipeline == 1)
 	{
-		shell->exit_status = 0;
+		
 		// update_or_add("_", str[str_size - 1], shell, 0);
 		ft_export_vars(str, shell);
+		return (0);
 	}
 	else
-		return ;
+	{
+		//ICI TESTE AU PIIF
+		ft_export_vars(str, shell);
+		return (0);
+	}		
 }
 
 // int	main(int argc, char **argv, char **envp)

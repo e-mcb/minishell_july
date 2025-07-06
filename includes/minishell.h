@@ -184,13 +184,13 @@ t_token		*new_token_append(t_token *head, char *str,
 void		print_str_array(char **arr);
 
 //builtins
-void		ft_export(char **str, t_shell *shell, int in_pipeline, int fd_out);
-void		ft_cd(char **str, t_shell *shell);
+int			ft_export(char **str, t_shell *shell, int in_pipeline, int fd_out);
+int			ft_cd(char **str, t_shell *shell);
 int			ft_echo(char **str, t_shell *shell, int fd_out);
-void		ft_env(char **str, t_shell *shell, int fd_out);
+int			ft_env(char **str, t_shell *shell, int fd_out);
 int			ft_exit(char **arr, t_shell *shell);
-void		ft_pwd(t_shell *shell, int fd_out);
-void		ft_unset(char **str, t_shell *shell, int in_pipeline);
+int			ft_pwd(int fd_out);
+int			ft_unset(char **str, t_shell *shell, int in_pipeline);
 
 //clean exit
 void		ft_free_str_array(char **arr);
@@ -225,13 +225,14 @@ int			safe_pipe(int *pipe_fd, t_shell *shell);
 int			is_valid_command(t_exec *tmp);
 void		handle_child_process(t_shell *shell, t_exec *tmp, int *pipe_fd);
 int			ft_is_builtin(char *str);
-void		call_builtin(t_shell *shell, t_exec *cur_exec, char *cmd);
-void		handle_builtin(t_shell *shell, t_exec *tmp);
+int			call_builtin(t_shell *shell, t_exec *cur_exec, char *cmd);
+int			handle_builtin(t_shell *shell, t_exec *tmp);
 void		setup_redirection(t_exec *tmp, int *pipe_fd, t_shell *shell);
 void		handle_heredoc_input(t_exec *tmp, int *pipe_fd);
 int			ft_execsize(t_exec *exec);
 
-void		wait_for_children_to_exit(t_shell *shell, int is_heredoc);
+void		wait_for_children_to_exit(t_shell *shell, pid_t last_pid);
+void		wait_for_heredoc_to_exit(pid_t pid);
 int			is_str_digit(char *str);
 void 		sigint_handler(int sig);
 

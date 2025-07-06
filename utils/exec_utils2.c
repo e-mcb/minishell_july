@@ -27,31 +27,31 @@ int	ft_is_builtin(char *str)
 	return (0);
 }
 
-void	call_builtin(t_shell *shell, t_exec *cur_exec, char *cmd)
+int	call_builtin(t_shell *shell, t_exec *cur_exec, char *cmd)
 {
 	if (ft_strcmp(cmd, "echo") == 0)
-		ft_echo(cur_exec->arr, shell, cur_exec->fd_out);
+		return (ft_echo(cur_exec->arr, shell, cur_exec->fd_out));
 	if (ft_strcmp(cmd, "cd") == 0)
-		ft_cd(cur_exec->arr, shell);
+		return (ft_cd(cur_exec->arr, shell));
 	if (ft_strcmp(cmd, "pwd") == 0)
-		ft_pwd(shell, cur_exec->fd_out);
+		return (ft_pwd(cur_exec->fd_out));
 	if (ft_strcmp(cmd, "export") == 0)
-		ft_export(cur_exec->arr, shell,
-			ft_execsize(shell->exec), cur_exec->fd_out);
+		return (ft_export(cur_exec->arr, shell,
+			ft_execsize(shell->exec), cur_exec->fd_out));
 	if (ft_strcmp(cmd, "unset") == 0)
-		ft_unset(cur_exec->arr, shell, ft_execsize(shell->exec));
+		return (ft_unset(cur_exec->arr, shell, ft_execsize(shell->exec)));
 	if (ft_strcmp(cmd, "env") == 0)
-		ft_env(cur_exec->arr, shell, cur_exec->fd_out);
+		return (ft_env(cur_exec->arr, shell, cur_exec->fd_out));
 	if (ft_strcmp(cmd, "exit") == 0)
-		ft_exit(cur_exec->arr, shell);
+		return (ft_exit(cur_exec->arr, shell));
+	return (0);
 }
 
-void	handle_builtin(t_shell *shell, t_exec *tmp)
+int	handle_builtin(t_shell *shell, t_exec *tmp)
 {
 	if (ft_is_builtin(tmp->arr[0]))
-	{
-		call_builtin(shell, tmp, tmp->arr[0]);
-	}
+		return (call_builtin(shell, tmp, tmp->arr[0]));
+	return (0);
 }
 
 void	setup_redirection(t_exec *tmp, int *pipe_fd, t_shell *shell)

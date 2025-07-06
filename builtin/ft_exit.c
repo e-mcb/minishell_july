@@ -65,7 +65,6 @@ int	ft_exit(char **arr, t_shell *shell)
 	else if (arr[1] && arr[2])
 	{
 		ft_putstr_fd("exit: too many arguments\n", 2);
-		shell->exit_status = 1;
 		return (1);
 	}
 	else if (!ft_is_number(arr[1]))

@@ -19,7 +19,7 @@
 // la fonction retourne le cwd quel que soit le nombre d'arguments
 // le options ne sont pas à gérer. si options, la fonction affiche
 // le cwd normalement. 
-void	ft_pwd(t_shell *shell, int fd_out)
+int	ft_pwd(int fd_out)
 {
 	char	cwd[1024];
 
@@ -28,12 +28,12 @@ void	ft_pwd(t_shell *shell, int fd_out)
 	{
 		ft_putstr_fd(cwd, fd_out);
 		ft_putstr_fd("\n", fd_out);
-		shell->exit_status = 0;
+		return (0);
 	}
 	else
 	{
 		perror("pwd");
-		shell->exit_status = 1;
+		return (1);
 	}
 }
 

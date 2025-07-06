@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 22:56:11 by mzutter           #+#    #+#             */
-/*   Updated: 2025/06/29 22:27:34 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/06 18:22:19 by sradosav         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,31 +53,49 @@ void	close_parent_fds(t_exec *tmp, int *pipe_fd, int *prev_fd_in)
 	*prev_fd_in = tmp->fd_in;
 }
 
-void	wait_for_children_to_exit(t_shell *shell, int is_heredoc)
+void	wait_for_children_to_exit(t_shell *shell, pid_t last_pid)
 {
-	int	status;
-	//comment check pour le bon pid?
-	while (wait(&status) > 0)
+	int		status;
+	pid_t	wpid;
+	int		sig;
+
+	while ((wpid = wait(&status)) > 0)
 	{
 		if (WIFSIGNALED(status))
 		{
-			int sig = WTERMSIG(status);
+			sig = WTERMSIG(status);
+			shell->exit_status = 128 + sig;
 			if (sig == SIGQUIT)
-			{
-				write(1, "Quit (core dumped)\n", 19);
-				shell->exit_status = 130;
-				if (is_heredoc)
-					g_signal = SIGQUIT;
-			}
+				write(1, "Quit\n", 5);
 			if (sig == SIGINT)
-			{
 				write(1, "\n", 1);
-				shell->exit_status = 130;
-				if (is_heredoc)
-					g_signal = SIGINT;
-			}
 		}
-	};
+		else if (wpid == last_pid && WIFEXITED(status))
+			shell->exit_status = WEXITSTATUS(status);
+	}
+}
+
+void	wait_for_heredoc_to_exit(pid_t pid)
+{
+	int		status;
+	int		sig;
+	
+	waitpid(pid, &status, 0);
+	if (WIFSIGNALED(status))
+	{
+		sig = WTERMSIG(status);
+
+		// if (sig == SIGQUIT)
+		// {
+		// 	write(1, "Quit (core dumped)\n", 19);
+		// 	g_signal = SIGQUIT;
+		// }
+		if (sig == SIGINT)
+		{
+			write(1, "\n", 1);
+			g_signal = SIGINT;
+		}
+	}
 }
 
 void	exec_loop(t_shell *shell)
@@ -86,6 +104,7 @@ void	exec_loop(t_shell *shell)
 	pid_t	pid;
 	int		pipe_fd[2];
 	int		prev_fd_in;
+	pid_t	last_pid;
 
 	prev_fd_in = STDIN_FILENO;
 	tmp = shell->exec;
@@ -93,7 +112,7 @@ void	exec_loop(t_shell *shell)
 		update_or_add("_", tmp->arr[count_strings(tmp->arr) - 1], shell, 0);
 	if (tmp->arr && ft_execsize(tmp) == 1 && ft_is_builtin(tmp->arr[0]))
 	{
-		handle_builtin(shell, tmp);
+		shell->exit_status = handle_builtin(shell, tmp);
 		return ;
 	}
 	while (tmp)
@@ -114,11 +133,14 @@ void	exec_loop(t_shell *shell)
 			handle_child_process(shell, tmp, pipe_fd);
 		}
 		else
+		{
+			last_pid = pid;
 			close_parent_fds(tmp, pipe_fd, &prev_fd_in);
+		}			
 		tmp = tmp->next;
 	}
 	if (prev_fd_in != STDIN_FILENO)
 		close(prev_fd_in);
-	wait_for_children_to_exit(shell, 0);
+	wait_for_children_to_exit(shell, last_pid);
 	signal(SIGINT, sigint_handler);
 }

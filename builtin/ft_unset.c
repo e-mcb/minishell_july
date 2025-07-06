@@ -39,7 +39,7 @@ void	delete_node(char *var_name, t_envvar **head)
 }
 
 // TOUJOURS PASSER EN PREMIERE CHAINE LA COMMANDE , ICI UNSET
-void	ft_unset(char **str, t_shell *shell, int in_pipeline)
+int	ft_unset(char **str, t_shell *shell, int in_pipeline)
 {
 	int	i;
 
@@ -53,7 +53,7 @@ void	ft_unset(char **str, t_shell *shell, int in_pipeline)
 		}
 	}
 	// update_or_add("_", str[i - 1], shell, 0);
-	shell->exit_status = 0;
+	return (0);
 }
 
 // int	main(int argc, char **argv, char **envp)

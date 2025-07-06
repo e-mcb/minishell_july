@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 21:51:01 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/04 00:07:07 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/06 17:47:21 by sradosav         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,14 @@ int	is_valid_command(t_exec *tmp)
 
 void	handle_child_process(t_shell *shell, t_exec *tmp, int *pipe_fd)
 {
+	int	status;
 	setup_redirection(tmp, pipe_fd, shell);
 	handle_heredoc_input(tmp, pipe_fd);
 	if (ft_is_builtin(tmp->arr[0]))
 	{
-		call_builtin(shell, tmp, tmp->arr[0]);
-		ft_clean_exit(NULL, shell, NULL, NULL);
+		status = call_builtin(shell, tmp, tmp->arr[0]);
+		exit(status);
+		// ft_clean_exit(NULL, shell, NULL, NULL);
 	}
 	else
 		execute_command(shell, tmp);

@@ -6,7 +6,7 @@
 /*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 11:16:07 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/04 02:40:08 by sradosav         ###   ########.fr       */
+/*   Updated: 2025/07/06 18:23:51 by sradosav         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ int	g_signal = 0;
 
 void sigint_handler(int sig)
 {
-	g_signal = sig;
-	g_signal = 0;
+	(void)sig;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);

@@ -20,7 +20,7 @@
 // si un argument, essaie le cd , mets a jour $_ 
 // traite les ~, - etc.. comme des chemins normaux
 // 25 LIGNES WESH :
-void	ft_cd(char **str, t_shell *shell)
+int	ft_cd(char **str, t_shell *shell)
 {
 	char	*pwd;
 	char	cwd[1024];
@@ -34,19 +34,19 @@ void	ft_cd(char **str, t_shell *shell)
 		else
 			ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 		// update_or_add("_", str[count_strings(str) - 1], shell, 0);
-		return ;
+		return (1);
 	}
 	if (chdir(str[1]) != 0)
 	{
 		perror("minishell: cd");
 		// update_or_add("_", str[count_strings(str) - 1], shell, 0);
-		return ;
+		return (1);
 	}
 	// update_or_add("_", str[count_strings(str) - 1], shell, 0);
 	update_or_add("OLDPWD", pwd, shell, 0);
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 		update_or_add("PWD", cwd, shell, 0);
-	shell->exit_status = 0;
+	return (0);
 }
 
 // int	main(int argc, char **argv, char **envp)

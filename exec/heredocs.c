@@ -23,9 +23,9 @@ char	*do_heredoc(const t_token *token, t_shell *shell)
 	char	*tmp;
 
 	finale = NULL;
-	pipe(pipefd);
+	safe_pipe(pipefd, shell);
 	signal(SIGINT, SIG_IGN);
-	pid = fork();
+	pid = safe_fork(shell);
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
@@ -71,7 +71,7 @@ char	*do_heredoc(const t_token *token, t_shell *shell)
 			free(line);
 		}
 		close(pipefd[0]);
-		wait_for_children_to_exit(shell, 1);
+		wait_for_heredoc_to_exit(pid);
 		signal(SIGINT, sigint_handler);
 		return (finale);
 	}
