@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 12:46:44 by mzutter           #+#    #+#             */
-/*   Updated: 2025/06/29 22:03:21 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/06 18:55:20 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ t_envvar	*copy_env_list(t_envvar *env, t_shell *shell)
 	{
 		new_node = malloc(sizeof(t_envvar));
 		if (!new_node)
-			return (free_env_list(&copy),
-				ft_clean_exit(NULL, shell, NULL, NULL), NULL);
+			return (free_env_list(&copy), ft_clean_exit(0, shell, 0, 0), NULL);
 		new_node->var = ft_strdup(env->var);
 		if (!new_node->var)
 			return (free(new_node), free_env_list(&copy),
 				ft_clean_exit(NULL, shell, NULL, NULL), NULL);
 		new_node->next = NULL;
+		new_node->exported = env->exported;
 		if (!copy)
 			copy = new_node;
 		else

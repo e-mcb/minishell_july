@@ -22,3 +22,14 @@ erreur redir invalide + commande? skip to pipe a revoir
 
 
 SEGFAULT SUR TOKEN DE REDIR SEUL
+
+
+________________________________________________________
+
+exit overflow long long
+
+expand qui pete minishell>"$USER; zebi $USER"
+(argument entre double guillemet? guillemets simples aussi) (probleme avec quotes)
+
+
+norme

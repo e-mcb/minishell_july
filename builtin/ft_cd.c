@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 22:30:37 by sradosav          #+#    #+#             */
-/*   Updated: 2025/06/18 19:21:50 by sradosav         ###   ########.fr       */
+/*   Updated: 2025/07/06 20:47:48 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,44 +33,15 @@ int	ft_cd(char **str, t_shell *shell)
 			ft_putstr_fd("minishell: cd: missing argument\n", 2);
 		else
 			ft_putstr_fd("minishell: cd: too many arguments\n", 2);
-		// update_or_add("_", str[count_strings(str) - 1], shell, 0);
 		return (1);
 	}
 	if (chdir(str[1]) != 0)
 	{
 		perror("minishell: cd");
-		// update_or_add("_", str[count_strings(str) - 1], shell, 0);
 		return (1);
 	}
-	// update_or_add("_", str[count_strings(str) - 1], shell, 0);
 	update_or_add("OLDPWD", pwd, shell, 0);
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 		update_or_add("PWD", cwd, shell, 0);
 	return (0);
 }
-
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	char	cwd[1024];
-// 	t_shell	*shell;
-// 	t_envvar	*env_copy;
-
-// 	shell = malloc(sizeof(t_shell));
-// 	if (!shell)
-// 		return (1);
-// 	shell->env = NULL;
-// 	shell->exit_status = 0;
-// 	shell->env = ft_env_to_list(envp);
-// 	ft_cd(argv, shell);
-// 	// if (getcwd(cwd, sizeof(cwd)) != NULL)
-// 	// 	printf("Current directory: %s\n", cwd);
-// 	// else
-// 	// 	perror("getcwd");
-// 	// env_copy = shell->env;
-// 	// while (env_copy)
-// 	// {
-// 	// 	printf("%s\n", env_copy->var);
-// 	// 	env_copy = env_copy->next;
-// 	// }
-// 	return (0);
-// }

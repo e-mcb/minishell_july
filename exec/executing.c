@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 22:56:11 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/06 18:22:19 by sradosav         ###   ########.fr       */
+/*   Updated: 2025/07/06 20:49:04 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,6 @@ void	wait_for_heredoc_to_exit(pid_t pid)
 	if (WIFSIGNALED(status))
 	{
 		sig = WTERMSIG(status);
-
-		// if (sig == SIGQUIT)
-		// {
-		// 	write(1, "Quit (core dumped)\n", 19);
-		// 	g_signal = SIGQUIT;
-		// }
 		if (sig == SIGINT)
 		{
 			write(1, "\n", 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:31:47 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/04 02:16:50 by sradosav         ###   ########.fr       */
+/*   Updated: 2025/07/06 20:55:48 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@
 # define PIPE_FIRST_LAST "syntax error near '|'\n"
 # define NOCLOBBER "noclobber not accounted for in minishell\n\
 						syntax error near token pair '>|'"
+# define OPERATOR_EXTREMITY "Operator detected at the end of input\n"
+# define SUCCESSIVE_OPERATORS "Successive operators detected \n"
+# define PATH "PATH=/home/mzutter/bin:/home/mzutter/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/mzutter/.dotnet/tools"
 
 extern int g_signal;
 
@@ -166,6 +169,8 @@ int			envvar_match(char *env_var, char *var, size_t len, char *full_var);
 
 //parsing utils
 int			ft_has_invalid_quotes(const char *str);
+int			string_error(char *input);
+int			token_error(t_shell *shell);
 
 //main lexer functions
 char		**ft_split2(char const *s, char c);
@@ -235,5 +240,7 @@ void		wait_for_children_to_exit(t_shell *shell, pid_t last_pid);
 void		wait_for_heredoc_to_exit(pid_t pid);
 int			is_str_digit(char *str);
 void 		sigint_handler(int sig);
+void		ft_end_minishell(char *input, t_shell *shell,
+	char *str_to_free, char **arr_to_free);
 
 #endif

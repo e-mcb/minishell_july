@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 11:16:07 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/06 18:23:51 by sradosav         ###   ########.fr       */
+/*   Updated: 2025/07/06 21:34:10 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*prompt(t_shell *shell)
 		if (input == NULL)
 		{
 			ft_putstr_fd("Goodbye\n", 2);
-			ft_clean_exit(NULL, shell, NULL, NULL);
+			ft_end_minishell(NULL, shell, NULL, NULL);
 		}
 		if (input[0] != '\0')
 			add_history(input);
@@ -76,6 +76,29 @@ void	ft_set_shlvl(t_shell *shell, char *shlvl_str)
 	free(new_value);
 }
 
+void	env_min(t_shell *shell)
+{
+	char	cwd[1024];
+	char	*joined;
+
+	if (getcwd(cwd, sizeof(cwd)) != 0)
+	{
+		joined = ft_strjoin("PWD=", cwd);
+		if (!joined)
+			ft_clean_exit(0, shell, 0, 0);
+		add_env_var(&(shell->env), joined, 1, shell);
+		free(joined);
+	}
+	else
+	{
+		perror("cwd init");
+		ft_clean_exit(0, shell, 0, 0);
+	}
+	add_env_var(&(shell->env), PATH, 1, shell);
+	add_env_var(&(shell->env), "OLDPWD", 1, shell);
+	add_env_var(&(shell->env), "SHLVL=0", 1, shell);
+}
+
 static t_shell	*init_shell(t_shell *shell, char **envp)
 {	
 	char	*shlvl_str;
@@ -86,7 +109,10 @@ static t_shell	*init_shell(t_shell *shell, char **envp)
 	shell->env_arr = NULL;
 	shell->splitted = NULL;
 	shell->token = NULL;
-	shell->env = ft_env_to_list(envp, shell);	
+	if (!envp[0])
+		env_min(shell);
+	else
+		shell->env = ft_env_to_list(envp, shell);	
 	shell->exit_status = 0;
 	if (shell->env == NULL)
 		ft_clean_exit(NULL, shell, NULL, NULL);
@@ -98,30 +124,6 @@ static t_shell	*init_shell(t_shell *shell, char **envp)
 		ft_set_shlvl(shell, shlvl_str);
 	return (shell);
 }
-
-// static void	ft_parsing(char *input, t_shell *shell)
-// {
-// 	int		i;
-
-// 	i = 0;
-// 	whitespace_to_space(input);
-// 	shell->splitted = ft_split2(input, ' ');
-// 	if (shell->splitted == NULL)
-// 		ft_clean_exit(input, shell, NULL, NULL);
-// 	free (input);
-// 	while (shell->splitted[i])
-// 	{
-// 		tokenizer(shell, i);
-// 		i++;
-// 	}
-// 	if (shell->splitted != NULL)
-// 		ft_free_str_array(shell->splitted);
-// 	refine_token_type(shell->token);
-// 	expand(shell);
-// 	second_refine_token_type(shell->token);
-// 	shell->splitted = NULL;
-// }
-
 
 static void	ft_parsing(char *input, t_shell *shell)
 {
@@ -155,6 +157,43 @@ static void	ft_parsing(char *input, t_shell *shell)
 	shell->splitted = NULL;
 }
 
+// static void	minishell_loop(t_shell *shell)
+// {
+// 	char	*input;
+// 	// int		i;
+
+// 	// i = 3;
+// 	while (1)
+// 	{
+// 		input = prompt(shell);
+// 		if (input == NULL)
+// 			continue ;
+// 		if (string_error(input))
+// 		{
+// 			free (input);
+// 			continue ;
+// 		}
+// 		ft_parsing(input, shell);
+// // 		if (token_error(shell) == 0)
+// // 		{
+// // 			create_exec(shell);
+// // 			if(g_signal != SIGINT)
+// // 			{
+// // 				env_list_to_arr(shell);
+// // 				exec_loop(shell);
+// // 			}
+// // 		}
+// // 		free_list(&shell->token);
+// // 		free_exec_list(&(shell->exec));
+// // 		free(shell->exec);
+// // 		ft_free_str_array(shell->env_arr);
+// // 		while (i++ < 1023)
+// // 			close(i);
+// // 		shell->env_arr = NULL;
+// // 		g_signal = 0;
+// 	}
+// }
+
 static void	minishell_loop(t_shell *shell)
 {
 	char	*input;
@@ -166,14 +205,21 @@ static void	minishell_loop(t_shell *shell)
 		input = prompt(shell);
 		if (input == NULL)
 			continue ;
-		ft_parsing(input, shell);
-		create_exec(shell);
-		if(g_signal != SIGINT)
+		if (string_error(input))
 		{
-			env_list_to_arr(shell);
-			exec_loop(shell);
+			free (input);
+			continue ;
 		}
-		
+		ft_parsing(input, shell);
+		if (token_error(shell) == 0)
+		{
+			create_exec(shell);
+			if(g_signal != SIGINT)
+			{
+				env_list_to_arr(shell);
+				exec_loop(shell);
+			}
+		}
 		free_list(&shell->token);
 		free_exec_list(&(shell->exec));
 		free(shell->exec);

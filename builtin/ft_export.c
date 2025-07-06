@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 22:32:04 by sradosav          #+#    #+#             */
-/*   Updated: 2025/06/23 16:51:04 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/06 19:00:26 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	handle_valid_export(char *str, t_shell *shell)
 	free(var);
 }
 
-void	ft_export_vars(char **str, t_shell *shell)
+int	ft_export_vars(char **str, t_shell *shell)
 {
 	int		i;
 	// int		var_len;
@@ -135,12 +135,16 @@ void	ft_export_vars(char **str, t_shell *shell)
 		if (!is_valid_identifier(str[i]))
 		{
 			printf("minishell: export: `%s': not a valid identifier\n", str[i]);
-			shell->exit_status = 1;
+			return (1);
 		}
 		else
+		{
 			handle_valid_export(str[i], shell);
+			return (0);
+		}
 		i++;
 	}
+	return (0);
 }
 
 // COMME POUR LES AUTRES FONCTIONS, TOUJOURS ENVOYER export EN PREMIERE LIGNE
@@ -178,18 +182,8 @@ int	ft_export(char **str, t_shell *shell, int in_pipeline, int fd_out)
 		return (0);
 	}
 	else if (in_pipeline == 1)
-	{
-		
-		// update_or_add("_", str[str_size - 1], shell, 0);
-		ft_export_vars(str, shell);
-		return (0);
-	}
-	else
-	{
-		//ICI TESTE AU PIIF
-		ft_export_vars(str, shell);
-		return (0);
-	}		
+		return (ft_export_vars(str, shell));
+	return (0);
 }
 
 // int	main(int argc, char **argv, char **envp)

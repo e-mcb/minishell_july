@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 21:51:01 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/06 17:47:21 by sradosav         ###   ########.fr       */
+/*   Updated: 2025/07/06 21:10:42 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	execute_command(t_shell *shell, t_exec *tmp)
 	i = 2;
 	if (ft_strcmp(tmp->arr[0], "minishell") == 0 || ft_strcmp(tmp->arr[0], "./minishell") == 0)
 		path = (ft_strdup("/tmp/minishell"));
+	else if (tmp->arr[0][0] == '/')
+		path = tmp->arr[0];
 	else
 		path = pathfinder(shell, tmp);
 	if (path == NULL)
@@ -27,12 +29,13 @@ void	execute_command(t_shell *shell, t_exec *tmp)
 		ft_putstr_fd("Command not found ", 2);
 		ft_putstr_fd(tmp->arr[0], 2);
 		ft_putstr_fd("\n", 2);
-		ft_clean_exit(NULL, shell, NULL, NULL);
+		exit(127);
 	}
 	while (++i < 1023)
 		close(i);
 	execve(path, tmp->arr, shell->env_arr);
-	ft_clean_exit(NULL, shell, NULL, NULL);
+	perror("direct path not found");
+	exit(127);
 }
 
 pid_t	safe_fork(t_shell *shell)

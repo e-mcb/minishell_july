@@ -11,6 +11,7 @@ BUILTIN_DIR = builtin
 LIBFT_DIR = includes/libft
 OBJ_DIR = objects
 EXEC_DIR = exec
+INPUT_CHECK_DIR = input_check
 
 # Source files
 SRCS = main.c \
@@ -48,7 +49,9 @@ SRCS = main.c \
 	$(EXEC_DIR)/prep_exec.c \
 	$(EXEC_DIR)/redirs.c \
 	$(EXEC_DIR)/heredocs.c \
-	$(EXEC_DIR)/executing.c
+	$(EXEC_DIR)/executing.c \
+	$(INPUT_CHECK_DIR)/check_input_str.c \
+	$(INPUT_CHECK_DIR)/check_input_token.c \
 
 # Object files
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)

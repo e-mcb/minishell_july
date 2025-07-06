@@ -6,25 +6,34 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 23:19:50 by mzutter           #+#    #+#             */
-/*   Updated: 2025/06/30 19:15:23 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/06 20:54:34 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+static int	is_operator(char c)
+{
+	if (c == '<' || c == '>')
+		return(1);
+	return(0);
+}
+
 int	string_error(char *input)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
-	if (input[0] == '|' || input[ft_strlen(input - 1)] == '|')
+	// i = 0;
+	if (input[0] == '|' || input[ft_strlen(input) - 1] == '|')
 	{
 		ft_putstr_fd(PIPE_FIRST_LAST, 2);
 		return (1);
 	}
-	while (input[i++])
+	if (is_operator(input[ft_strlen(input) - 1]))
 	{
-		
+		ft_putstr_fd(OPERATOR_EXTREMITY, 2);
+		return (1);
 	}
+	return (0);
 	// what to add?
 }

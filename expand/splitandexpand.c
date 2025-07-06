@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 14:20:51 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/04 02:04:51 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/06 20:39:49 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	process_dollar(char *input, t_expand *ex, t_shell *shell)
 		case_only_dollar(ex);
 	else if (input[ex->i + 1] == '?')
 		case_question_mark(ex, shell);
-	else if (ft_isdigit(input[ex->i + 1]))
+	else if (ft_isdigit(input[ex->i + 1]) || input[ex->i + 1] == '$')
 	{
 		ex->i += 2 ;
 		ex->start = ex->i;
