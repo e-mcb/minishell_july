@@ -67,6 +67,14 @@ int	process_token(t_shell *shell, t_token **tmp, t_token **prev,
 	if (!ft_strchr((*tmp)->value, '$'))
 		return (0);
 	*expanded = join_chars(split_and_expand((*tmp)->value, shell), shell);
+	//__________________________________________________
+	//DEBUG POUR AFFICHER LA CHAINE FINALE QUI A ETE EXPAND
+	//--------------------------------------------------
+	printf("expanded: |%s|\n", *expanded);
+	fflush(stdout);
+	//__________________________________________________
+	//FIN DEBUG
+	//--------------------------------------------------
 	if (*expanded && (*expanded)[0] != 0)
 	{
 		splitted = split_keep_separators(*expanded, is_whitespace, shell);

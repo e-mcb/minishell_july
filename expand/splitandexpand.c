@@ -52,7 +52,7 @@ static void	process_dollar(char *input, t_expand *ex, t_shell *shell)
 				ex->i - ex->start, shell);
 		ex->start = ex->i;
 	}
-	else if (input[ex->i + 1] == ' '
+	if (input[ex->i + 1] == ' '
 		|| input[ex->i + 1] == '\0')
 		case_only_dollar(ex);
 	else if (input[ex->i + 1] == '?')
@@ -71,6 +71,7 @@ char	**split_and_expand(char *input, t_shell *shell)
 	t_expand	ex;
 
 	init_ex(&ex);
+	printf("nombre de segments: %d\n", ft_count_segments(input));
 	ex.result = malloc(sizeof(char *) * (ft_count_segments(input) + 1));
 	if (!ex.result)
 		ft_clean_exit(NULL, shell, NULL, NULL);
@@ -89,5 +90,18 @@ char	**split_and_expand(char *input, t_shell *shell)
 		ex.result[ex.j++] = strndup_custom(input + ex.start,
 				ex.i - ex.start, shell);
 	ex.result[ex.j] = NULL;
+	//_____________________________________________________________
+	//DEBUG POUR AFFICHER LE TABLEAU DE CHAINE RECUPERE DE L EXPAND
+	//-------------------------------------------------------------
+	int z=0;
+	while(ex.result[z])
+	{
+		printf("%d : |%s|\n", z, ex.result[z]);
+		z++;
+	}
+	printf("fin du tableau\n");
+	fflush(stdout);
+	//FIN DU DEBUG
+
 	return (ex.result);
 }
