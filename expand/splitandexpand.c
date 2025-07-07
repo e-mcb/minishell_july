@@ -18,8 +18,8 @@ static void	init_ex(t_expand *ex)
 	ex->j = 0;
 	ex->count = 0;
 	ex->start = 0;
-	ex->in_single_quote = 0;
-	ex->in_double_quote = 0;
+	ex->in_single_quote = false;
+	ex->in_double_quote = false;
 }
 
 static void	process_single_quote(const char *input,
@@ -71,7 +71,6 @@ char	**split_and_expand(char *input, t_shell *shell)
 	t_expand	ex;
 
 	init_ex(&ex);
-	printf("nombre de segments: %d\n", ft_count_segments(input));
 	ex.result = malloc(sizeof(char *) * (ft_count_segments(input) + 1));
 	if (!ex.result)
 		ft_clean_exit(NULL, shell, NULL, NULL);
@@ -90,18 +89,5 @@ char	**split_and_expand(char *input, t_shell *shell)
 		ex.result[ex.j++] = strndup_custom(input + ex.start,
 				ex.i - ex.start, shell);
 	ex.result[ex.j] = NULL;
-	//_____________________________________________________________
-	//DEBUG POUR AFFICHER LE TABLEAU DE CHAINE RECUPERE DE L EXPAND
-	//-------------------------------------------------------------
-	int z=0;
-	while(ex.result[z])
-	{
-		printf("%d : |%s|\n", z, ex.result[z]);
-		z++;
-	}
-	printf("fin du tableau\n");
-	fflush(stdout);
-	//FIN DU DEBUG
-
 	return (ex.result);
 }

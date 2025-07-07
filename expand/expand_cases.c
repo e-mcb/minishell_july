@@ -65,19 +65,8 @@ void	case_env_var(t_expand *ex, char *input, t_shell *shell)
 		&& input[ex->i] != '"' && input[ex->i] != '\'' && input[ex->i] != '$'
 		&& (ft_isalnum(input[ex->i]) || input[ex->i] == '_'))
 		ex->i++;
-	//__________________________________________________
-	//DEBUG VARIABLE DETECTEE, GENRE $USER montrera USER
-	//--------------------------------------------------
-	printf("Detected variable: '%.*s'\n", ex->i - ex->start, input + ex->start);
-	//___________________________________________________________________________
-
 	varname = strndup_custom(input + ex->start, ex->i - ex->start, shell);
 	value = get_env_value(varname, shell);
-	//__________________________________________________
-	//DEBUG VALEUR DE LA VARIABLE
-	//--------------------------------------------------
-	printf("value: '%s'\n", value);
-	//___________________________________________________
 	ex->result[ex->j++] = value;
 	free(varname);
 	ex->start = ex->i;
