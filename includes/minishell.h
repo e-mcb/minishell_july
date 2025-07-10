@@ -39,9 +39,13 @@
 						syntax error near token pair '>|'"
 # define OPERATOR_EXTREMITY "Operator detected at the end of input\n"
 # define SUCCESSIVE_OPERATORS "Successive operators detected \n"
-# define PATH "PATH=/home/mzutter/bin:/home/mzutter/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/mzutter/.dotnet/tools"
+# define PATH "PATH=/home/mzutter/bin:/home/mzutter/bin:/usr/local/sbin:\
+	/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:\
+	/usr/local/games:/snap/bin:/home/mzutter/.dotnet/tools"
+# define EOF_HEREDOC "minishell: warning:\
+	 here-document delimited by end-of-file (wanted '"
 
-extern int g_signal;
+extern int	g_signal;
 
 typedef enum e_token_type
 {
@@ -146,7 +150,7 @@ void		ft_init_var(size_t *i, size_t *count, bool *in_quotes, char *c);
 void		whitespace_to_space(char *str);
 int			ft_strcmp(char *s1, char *s2);
 char		*ft_strndup(char *s, size_t n);
-char 		*remove_quotes(char *input, t_shell *shell);
+char		*remove_quotes(char *input, t_shell *shell);
 
 //misc utils
 void		*ft_realloc(void *ptr, int old_size, int new_size);
@@ -235,12 +239,16 @@ int			handle_builtin(t_shell *shell, t_exec *tmp);
 void		setup_redirection(t_exec *tmp, int *pipe_fd, t_shell *shell);
 void		handle_heredoc_input(t_exec *tmp, int *pipe_fd);
 int			ft_execsize(t_exec *exec);
+int			should_run_single_builtin(t_shell *shell, t_exec *cmd);
+void		handle_in_child(t_shell *shell, t_exec *cmd, int *pipe_fd);
+pid_t		execute_all_commands(t_shell *shell, t_exec *tmp, int *pipe_fd,
+				int prev_fd_in);
 
 void		wait_for_children_to_exit(t_shell *shell, pid_t last_pid);
 void		wait_for_heredoc_to_exit(pid_t pid);
 int			is_str_digit(char *str);
-void 		sigint_handler(int sig);
+void		sigint_handler(int sig);
 void		ft_end_minishell(char *input, t_shell *shell,
-	char *str_to_free, char **arr_to_free);
+				char *str_to_free, char **arr_to_free);
 
 #endif

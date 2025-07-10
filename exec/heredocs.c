@@ -12,125 +12,81 @@
 
 #include "../includes/minishell.h"
 
+static void	handle_child_heredoc(const t_token *token, int *pipefd)
+{
+	char	*input;
+
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
+	close(pipefd[0]);
+	while (1)
+	{
+		input = readline("> ");
+		if (input == NULL)
+		{
+			ft_putstr_fd(EOF_HEREDOC, 2);
+			ft_putstr_fd(token->value, 2);
+			ft_putstr_fd("')\n", 2);
+			break ;
+		}
+		if (ft_strcmp(input, token->value) == 0)
+		{
+			free(input);
+			break ;
+		}
+		write(pipefd[1], input, strlen(input));
+		write(pipefd[1], "\n", 1);
+		free(input);
+	}
+	exit((close(pipefd[1]), 0));
+}
+
+static char	*read_heredoc_output(int *pipefd)
+{
+	char	*line;
+	char	*finale;
+	char	*tmp;
+
+	line = NULL;
+	finale = NULL;
+	tmp = NULL;
+	close(pipefd[1]);
+	line = get_next_line(pipefd[0]);
+	while (line != NULL)
+	{
+		if (finale != NULL)
+		{
+			tmp = finale;
+			finale = ft_strjoin(finale, line);
+			free(tmp);
+		}
+		else
+			finale = ft_strdup(line);
+		if (finale == NULL)
+			return (free(line), NULL);
+		free(line);
+		line = get_next_line(pipefd[0]);
+	}
+	return (close(pipefd[0]), finale);
+}
+
 char	*do_heredoc(const t_token *token, t_shell *shell)
 {
 	int		pipefd[2];
 	pid_t	pid;
-	char	*finale;
-	char	*line;
-	char	*tmp;
+	char	*result;
 
-	finale = NULL;
+	result = NULL;
 	safe_pipe(pipefd, shell);
 	signal(SIGINT, SIG_IGN);
 	pid = safe_fork(shell);
 	if (pid == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_IGN);
-		close(pipefd[0]);
-		while (1)
-		{
-			char	*input = readline("> ");
-			if (!input)
-			{
-				ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted '", 2);
-				ft_putstr_fd(token->value, 2);
-				ft_putstr_fd("')\n", 2);
-				break ;
-			}
-			if (strcmp(input, token->value) == 0)
-			{
-				free(input);
-				break ;
-			}
-			write(pipefd[1], input, strlen(input));
-			write(pipefd[1], "\n", 1);
-			free(input);
-		}
-		close(pipefd[1]);
-		exit(0);
-	}
+		handle_child_heredoc(token, pipefd);
 	else
 	{
-		close(pipefd[1]);
-		while ((line = get_next_line(pipefd[0])) != NULL)
-		{
-			if (finale)
-			{
-				tmp = finale;
-				finale = ft_strjoin(finale, line);
-				free(tmp);
-			}
-			else
-				finale = ft_strdup(line);
-			if (!finale)
-				return (NULL);
-			free(line);
-		}
-		close(pipefd[0]);
+		result = read_heredoc_output(pipefd);
 		wait_for_heredoc_to_exit(pid);
 		signal(SIGINT, sigint_handler);
-		return (finale);
 	}
+	return (result);
 }
-
-// char	*do_heredoc(const t_token *token, const t_shell *shell)
-// {
-// 	int		pipefd[2];
-// 	pid_t	pid;
-// 	char	*finale;
-// 	char	*line;
-// 	char	*tmp;
-
-// 	finale = NULL;
-// 	pipe(pipefd);
-// 	pid = fork();
-// 	g_status = 1;
-// 	if (pid == 0)
-// 	{
-// 		signal(SIGINT, SIG_DFL);
-// 		signal(SIGQUIT, SIG_IGN);
-// 		close(pipefd[0]);
-// 		while (1)
-// 		{
-// 			char *input = readline("> ");
-// 			if (!input)
-// 			{
-// 				ft_putstr_fd("minishell: warning: here-document delimited by end-of-file.\n", 2);
-// 				break ;
-// 			}
-// 			if (strcmp(input, token->value) == 0)
-// 			{
-// 				free(input);
-// 				break ;
-// 			}
-// 			write(pipefd[1], input, strlen(input));
-// 			write(pipefd[1], "\n", 1);
-// 			free(input);
-// 		}
-// 		close(pipefd[1]);
-// 		exit(0);
-// 	}
-// 	else
-// 	{
-// 		close(pipefd[1]);
-// 		while ((line = get_next_line(pipefd[0])) != NULL)
-// 		{
-// 			if (finale)
-// 			{
-// 				tmp = finale;
-// 				finale = ft_strjoin(finale, line);
-// 				free(tmp);
-// 			}
-// 			else
-// 				finale = ft_strdup(line);
-// 			if (!finale)
-// 				return NULL;
-// 			free(line);
-// 		}
-// 		close(pipefd[0]);
-// 		// wait_for_children_to_exit(shell, 1);
-// 		return (finale);
-// 	}
-// }

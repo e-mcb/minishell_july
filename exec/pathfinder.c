@@ -47,7 +47,7 @@ char	*pathfinder(t_shell *shell, t_exec *current)
 
 	path_var = ft_getenv("PATH", shell);
 	if (!path_var)
-		return (NULL); //msg d'erreurs
+		return (NULL);
 	poss_paths = ft_split(path_var, ':');
 	i = 0;
 	while (poss_paths[i])

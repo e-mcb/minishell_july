@@ -24,7 +24,8 @@ int	token_error(t_shell *shell)
 		if ((tmp->type == IN || tmp->type == APPEND
 				|| tmp->type == HDOC) && tmp->next->type == PIPE)
 			return (ft_putstr_fd("syntax error near token '|'", 2), 1);
-		if ((is_redir(tmp) || tmp->type == HDOC) && tmp->next && (is_redir(tmp->next) || tmp->next->type == HDOC))
+		if ((is_redir(tmp) || tmp->type == HDOC) && tmp->next
+			&& (is_redir(tmp->next) || tmp->next->type == HDOC))
 			return (ft_putstr_fd(SUCCESSIVE_OPERATORS, 2), 1);
 		tmp = tmp->next;
 	}

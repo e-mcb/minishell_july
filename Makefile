@@ -51,6 +51,7 @@ SRCS = main.c \
 	$(EXEC_DIR)/redirs.c \
 	$(EXEC_DIR)/heredocs.c \
 	$(EXEC_DIR)/executing.c \
+	$(EXEC_DIR)/exec_loop_utils.c \
 	$(INPUT_CHECK_DIR)/check_input_str.c \
 	$(INPUT_CHECK_DIR)/check_input_token.c \
 

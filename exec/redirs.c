@@ -67,7 +67,8 @@ static int	handle_heredoc(t_exec *exec, t_token *tmp, t_shell *shell)
 	if (tmp->next->in_quotes == false)
 	{
 		tmp_str = exec->heredoc;
-		exec->heredoc = join_chars(split_and_expand(exec->heredoc, shell), shell);
+		exec->heredoc = join_chars(split_and_expand(exec->heredoc, shell),
+				shell);
 		free(tmp_str);
 	}
 	exec->heredoc_bool = true;

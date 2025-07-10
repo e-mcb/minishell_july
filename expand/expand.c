@@ -90,17 +90,23 @@ void	amb_redir(char *str, t_shell *shell)
 //	return (cleanup_token(expanded, &splitted), 1);
 //}
 
-t_token	*insert_new_nodes(t_shell *shell, t_token *prev, t_token *current, char **splitted)
+static void	thanks_norminette(t_token **head, t_token **tail, int *i)
+{
+	*head = NULL;
+	*tail = NULL;
+	*i = -1;
+}
+
+t_token	*insert_new_nodes(t_shell *shell, t_token *prev,
+		t_token *current, char **splitted)
 {
 	t_token	*head;
 	t_token	*tail;
 	t_token	*new_node;
 	int		i;
 
-	i = 0;
-	head = NULL;
-	tail = NULL;
-	while (splitted[i])
+	thanks_norminette(&head, &tail, &i);
+	while (splitted[++i])
 	{
 		new_node = create_token(splitted[i], shell);
 		if (!new_node)
@@ -111,7 +117,6 @@ t_token	*insert_new_nodes(t_shell *shell, t_token *prev, t_token *current, char 
 		else
 			tail->next = new_node;
 		tail = new_node;
-		i++;
 	}
 	if (tail)
 		tail->next = current->next;

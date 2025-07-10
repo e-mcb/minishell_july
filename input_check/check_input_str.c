@@ -21,9 +21,6 @@ static int	is_operator(char c)
 
 int	string_error(char *input)
 {
-	// int	i;
-
-	// i = 0;
 	if (input[0] == '|' || input[ft_strlen(input) - 1] == '|')
 	{
 		ft_putstr_fd(PIPE_FIRST_LAST, 2);
@@ -35,5 +32,4 @@ int	string_error(char *input)
 		return (1);
 	}
 	return (0);
-	// what to add?
 }

@@ -18,7 +18,8 @@ void	execute_command(t_shell *shell, t_exec *tmp)
 	char	*path;
 
 	i = 2;
-	if (ft_strcmp(tmp->arr[0], "minishell") == 0 || ft_strcmp(tmp->arr[0], "./minishell") == 0)
+	if (ft_strcmp(tmp->arr[0], "minishell") == 0
+		|| ft_strcmp(tmp->arr[0], "./minishell") == 0)
 		path = (ft_strdup("/tmp/minishell"));
 	else if (tmp->arr[0][0] == '/')
 		path = tmp->arr[0];
@@ -63,7 +64,7 @@ int	is_valid_command(t_exec *tmp)
 void	handle_child_process(t_shell *shell, t_exec *tmp, int *pipe_fd)
 {
 	int	status;
-	
+
 	setup_redirection(tmp, pipe_fd, shell);
 	handle_heredoc_input(tmp, pipe_fd);
 	if (ft_is_builtin(tmp->arr[0]))

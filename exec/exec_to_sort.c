@@ -105,19 +105,16 @@ void	create_exec(t_shell *shell)
 	t_exec	*exec;
 	t_token	*tmp;
 	t_exec	*last;
-	char	*heredoc;
 
 	tmp = shell->token;
 	exec = new_node(NULL);
 	last = exec;
-	heredoc = NULL;
 	while (tmp)
 	{
 		if (tmp->type == PIPE)
 		{
 			last->next = new_node(exec);
 			last = last->next;
-			last->heredoc = heredoc;
 		}
 		if (is_redir(tmp) || tmp->type == HDOC)
 		{
