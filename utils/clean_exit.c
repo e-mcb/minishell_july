@@ -96,7 +96,6 @@ void	free_exec_list(t_exec **exec)
 	*exec = NULL;
 }
 
-
 void	ft_clean_exit(char *input, t_shell *shell,
 	char *str_to_free, char **arr_to_free)
 {

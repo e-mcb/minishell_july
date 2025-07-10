@@ -63,6 +63,7 @@ int	is_valid_command(t_exec *tmp)
 void	handle_child_process(t_shell *shell, t_exec *tmp, int *pipe_fd)
 {
 	int	status;
+	
 	setup_redirection(tmp, pipe_fd, shell);
 	handle_heredoc_input(tmp, pipe_fd);
 	if (ft_is_builtin(tmp->arr[0]))

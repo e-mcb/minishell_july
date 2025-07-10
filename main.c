@@ -14,7 +14,7 @@
 
 int	g_signal = 0;
 
-void sigint_handler(int sig)
+void	sigint_handler(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
@@ -100,9 +100,9 @@ void	env_min(t_shell *shell)
 }
 
 static t_shell	*init_shell(t_shell *shell, char **envp)
-{	
+{
 	char	*shlvl_str;
-	
+
 	shell = malloc(sizeof(t_shell));
 	if (shell == NULL)
 		ft_clean_exit(NULL, NULL, NULL, NULL);
@@ -112,7 +112,7 @@ static t_shell	*init_shell(t_shell *shell, char **envp)
 	if (!envp[0])
 		env_min(shell);
 	else
-		shell->env = ft_env_to_list(envp, shell);	
+		shell->env = ft_env_to_list(envp, shell);
 	shell->exit_status = 0;
 	if (shell->env == NULL)
 		ft_clean_exit(NULL, shell, NULL, NULL);
@@ -148,7 +148,7 @@ static void	ft_parsing(char *input, t_shell *shell)
 	while (tmp)
 	{
 		if (ft_strchr(tmp->value, '\'') != NULL
-		|| ft_strchr(tmp->value, '"') != NULL)
+			|| ft_strchr(tmp->value, '"') != NULL)
 			tmp->in_quotes = true;
 		tmp = tmp->next;
 	}
@@ -214,7 +214,7 @@ static void	minishell_loop(t_shell *shell)
 		if (token_error(shell) == 0)
 		{
 			create_exec(shell);
-			if(g_signal != SIGINT)
+			if (g_signal != SIGINT)
 			{
 				env_list_to_arr(shell);
 				exec_loop(shell);
@@ -234,14 +234,9 @@ static void	minishell_loop(t_shell *shell)
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
-	/*
-	printf("%s:%d", __FILE__, __LINE__);
-	ft_error(BRED"Erreur:"WHITE" %s:%d mon message erreur", __FILE__, __LINE__); //code ANSI pour les couleurs + exemple de fonction pour erreur (CTR+click dans le terminal VScode)
-	CTRL + ` 			=> aller au terminal
-	CTRL + SHIFT + E	=> aller a l'exploreur de fichiers
-	*/
+
 	signal(SIGINT, sigint_handler);
-    signal(SIGQUIT, SIG_IGN); 
+	signal(SIGQUIT, SIG_IGN);
 	printf("Welcome to minishell\n");
 	(void)argc;
 	(void)argv;

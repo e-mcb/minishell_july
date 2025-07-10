@@ -79,7 +79,7 @@ void	wait_for_heredoc_to_exit(pid_t pid)
 {
 	int		status;
 	int		sig;
-	
+
 	waitpid(pid, &status, 0);
 	if (WIFSIGNALED(status))
 	{
@@ -123,14 +123,14 @@ void	exec_loop(t_shell *shell)
 		if (pid == 0)
 		{
 			signal(SIGINT, SIG_DFL);
-    		signal(SIGQUIT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 			handle_child_process(shell, tmp, pipe_fd);
 		}
 		else
 		{
 			last_pid = pid;
 			close_parent_fds(tmp, pipe_fd, &prev_fd_in);
-		}			
+		}
 		tmp = tmp->next;
 	}
 	if (prev_fd_in != STDIN_FILENO)

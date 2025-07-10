@@ -37,7 +37,7 @@ int	call_builtin(t_shell *shell, t_exec *cur_exec, char *cmd)
 		return (ft_pwd(cur_exec->fd_out));
 	if (ft_strcmp(cmd, "export") == 0)
 		return (ft_export(cur_exec->arr, shell,
-			ft_execsize(shell->exec), cur_exec->fd_out));
+				ft_execsize(shell->exec), cur_exec->fd_out));
 	if (ft_strcmp(cmd, "unset") == 0)
 		return (ft_unset(cur_exec->arr, shell, ft_execsize(shell->exec)));
 	if (ft_strcmp(cmd, "env") == 0)

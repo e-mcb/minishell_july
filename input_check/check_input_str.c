@@ -15,8 +15,8 @@
 static int	is_operator(char c)
 {
 	if (c == '<' || c == '>')
-		return(1);
-	return(0);
+		return (1);
+	return (0);
 }
 
 int	string_error(char *input)

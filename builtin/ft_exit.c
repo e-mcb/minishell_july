@@ -80,6 +80,6 @@ int	ft_exit(char **arr, t_shell *shell)
 	{
 		exit_status = ft_atoll(arr[1]) % 256;
 		free_before_exit(shell, NULL, NULL);
-		exit(ft_atoll(arr[1]) % 256);
+		exit(exit_status);
 	}
 }

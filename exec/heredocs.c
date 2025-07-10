@@ -12,8 +12,6 @@
 
 #include "../includes/minishell.h"
 
-
-
 char	*do_heredoc(const t_token *token, t_shell *shell)
 {
 	int		pipefd[2];
@@ -33,7 +31,7 @@ char	*do_heredoc(const t_token *token, t_shell *shell)
 		close(pipefd[0]);
 		while (1)
 		{
-			char *input = readline("> ");
+			char	*input = readline("> ");
 			if (!input)
 			{
 				ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted '", 2);
@@ -67,7 +65,7 @@ char	*do_heredoc(const t_token *token, t_shell *shell)
 			else
 				finale = ft_strdup(line);
 			if (!finale)
-				return NULL;
+				return (NULL);
 			free(line);
 		}
 		close(pipefd[0]);

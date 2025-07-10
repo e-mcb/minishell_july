@@ -120,11 +120,11 @@ void	create_exec(t_shell *shell)
 			last->heredoc = heredoc;
 		}
 		if (is_redir(tmp) || tmp->type == HDOC)
-			{
-				tmp = handle_redir(last, tmp, shell);
-				if (!tmp)
-					break ;
-			}
+		{
+			tmp = handle_redir(last, tmp, shell);
+			if (!tmp)
+				break ;
+		}
 		if (tmp->type == ARG || tmp->type == CMD)
 			last->arr = add_string_to_array(last->arr, tmp->value, shell);
 		tmp = tmp->next;

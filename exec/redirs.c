@@ -55,7 +55,7 @@ static int	handle_append(t_exec *exec, t_token *tmp)
 static int	handle_heredoc(t_exec *exec, t_token *tmp, t_shell *shell)
 {
 	char	*tmp_str;
-	
+
 	tmp_str = NULL;
 	if (exec->fd_in > 0)
 		close(exec->fd_in);

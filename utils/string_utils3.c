@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-char *remove_quotes(char *input, t_shell *shell)
+char	*remove_quotes(char *input, t_shell *shell)
 {
 	size_t	len;
 	char	*output;
