@@ -12,12 +12,6 @@
 
 #include "../includes/minishell.h"
 
-// deux solutions pour gérer env avec arguments ou options:
-// - soit faire le env et ignorer ce qu'il y a apres
-// -soit envoyer une erreur s'il y a argument ou option
-// dans cette version, je prefere envoyer une erreur.
-// le sujet dit env sans option sans arguments.
-
 int	ft_env(char **str, t_shell *shell, int fd_out)
 {
 	t_envvar	*env_copy;
@@ -25,7 +19,6 @@ int	ft_env(char **str, t_shell *shell, int fd_out)
 	if (count_strings(str) > 1)
 	{
 		ft_putstr_fd("minishell: env: too many arguments or options\n", 2);
-		// update_or_add("_", str[count_strings(str) - 1], shell, 0);
 		return (1);
 	}
 	else
@@ -41,7 +34,6 @@ int	ft_env(char **str, t_shell *shell, int fd_out)
 			}
 			env_copy = env_copy->next;
 		}
-		// update_or_add("_", str[count_strings(str) - 1], shell, 0);
 		return (0);
 	}
 }

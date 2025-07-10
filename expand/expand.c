@@ -90,7 +90,7 @@ void	amb_redir(char *str, t_shell *shell)
 //	return (cleanup_token(expanded, &splitted), 1);
 //}
 
-t_token *insert_new_nodes(t_shell *shell, t_token *prev, t_token *current, char **splitted)
+t_token	*insert_new_nodes(t_shell *shell, t_token *prev, t_token *current, char **splitted)
 {
 	t_token	*head;
 	t_token	*tail;
@@ -122,7 +122,6 @@ t_token *insert_new_nodes(t_shell *shell, t_token *prev, t_token *current, char 
 	return (free(current->value), free(current), head);
 }
 
-
 int	process_token(t_shell *shell, t_token **tmp, t_token **prev,
 			char **expanded)
 {
@@ -144,8 +143,8 @@ int	process_token(t_shell *shell, t_token **tmp, t_token **prev,
 			return (free(*expanded), ft_free_str_array(splitted), 1);
 		}
 		*tmp = insert_new_nodes(shell, *prev, *tmp, splitted);
-			*prev = *tmp;
-			*tmp = (*tmp)->next;
+		*prev = *tmp;
+		*tmp = (*tmp)->next;
 	}
 	else
 		(*tmp)->value[0] = 0;

@@ -35,28 +35,30 @@ int	ft_is_number(const char *str)
 	return (1);
 }
 
-// free(shell) aussi ??
 void	free_before_exit(t_shell *shell, void *ptr_a, void *ptr_b)
 {
-	(void) ptr_a;
-	(void) ptr_b;
+	(void)ptr_a;
+	(void)ptr_b;
 	if (shell)
 	{
 		if (shell->env)
 			free_env_list(&(shell->env));
 		if (shell->env_arr)
 			ft_free_str_array(shell->env_arr);
-		// if (shell->splitted)
-		// 	ft_free_str_array(shell->splitted);
+		if (shell->splitted)
+			ft_free_str_array(shell->splitted);
 		if (shell->token)
 			free_list(&(shell->token));
 		if (shell->exec)
 			free_exec_list(&(shell->exec));
+		free(shell);
 	}
 }
 
 int	ft_exit(char **arr, t_shell *shell)
 {
+	long long	exit_status;
+
 	if (!arr[1])
 	{
 		free_before_exit(shell, NULL, NULL);
@@ -67,15 +69,17 @@ int	ft_exit(char **arr, t_shell *shell)
 		ft_putstr_fd("exit: too many arguments\n", 2);
 		return (1);
 	}
-	else if (!ft_is_number(arr[1]))
+	else if (!ft_is_number(arr[1]) || ft_atoll(arr[1]) < -9223372036854775807LL - 1
+		|| ft_atoll(arr[1]) > 9223372036854775807LL)
 	{
 		ft_putstr_fd("exit: numeric argument required\n", 2);
 		free_before_exit(shell, NULL, NULL);
-		exit (2);
+		exit(2);
 	}
 	else
 	{
+		exit_status = ft_atoll(arr[1]) % 256;
 		free_before_exit(shell, NULL, NULL);
-		exit (ft_atoll(arr[1]) % 256);
+		exit(ft_atoll(arr[1]) % 256);
 	}
 }

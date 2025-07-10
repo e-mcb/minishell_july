@@ -69,7 +69,6 @@ void	handle_child_process(t_shell *shell, t_exec *tmp, int *pipe_fd)
 	{
 		status = call_builtin(shell, tmp, tmp->arr[0]);
 		exit(status);
-		// ft_clean_exit(NULL, shell, NULL, NULL);
 	}
 	else
 		execute_command(shell, tmp);

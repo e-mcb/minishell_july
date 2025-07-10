@@ -34,29 +34,19 @@ static void	process_dollar(char *input, t_expand *ex)
 {
 	if (ex->i > ex->start)
 		ex->count++;
-	if (input[ex->i + 1] && (ft_isdigit(input[ex->i + 1]) || input[ex->i + 1] == '$'))
-	{
+	if (input[ex->i + 1] && (ft_isdigit(input[ex->i + 1])
+			|| input[ex->i + 1] == '$'))
 		ex->i += 2;
-		ex->start = ex->i;
-	}
-	else if (input[ex->i + 1] == ' ')
-	{
-		ex->count++;
-		ex->i += 1; // PAS +2 !
-		ex->start = ex->i;
-	}
-	else if (input[ex->i + 1] == '\0')
+	else if (input[ex->i + 1] == ' ' || input[ex->i + 1] == '\0')
 	{
 		ex->count++;
 		ex->i += 1;
-		ex->start = ex->i;
 	}
 	else if (input[ex->i + 1] == '?')
 	{
 		ex->count++;
 		ex->i += 2;
-		ex->start = ex->i;
-	}		
+	}
 	else
 	{
 		ex->i++;
@@ -64,10 +54,11 @@ static void	process_dollar(char *input, t_expand *ex)
 			&& (ft_isalnum(input[ex->i]) || input[ex->i] == '_'))
 			ex->i++;
 		ex->count++;
-		ex->start = ex->i;
 	}
+	ex->start = ex->i;
 }
 
+//Determine the number of segments needed before performing 'splitAndExpand'
 int	ft_count_segments(char *input)
 {
 	t_expand	ex;
@@ -79,7 +70,6 @@ int	ft_count_segments(char *input)
 	ex.in_single_quote = 0;
 	ex.in_double_quote = 0;
 	ex.result = NULL;
-	
 	while (input[ex.i])
 	{
 		if (input[ex.i] == '\'' && !ex.in_double_quote)

@@ -73,7 +73,6 @@ int	add_env_var(t_envvar **head, char *str, int exported, t_shell *shell)
 	return (1);
 }
 
-//LE DERNIER IF EST INUTILE
 t_envvar	*ft_env_to_list(char **envp, t_shell *shell)
 {
 	t_envvar	*env;

@@ -12,14 +12,6 @@
 
 #include "../includes/minishell.h"
 
-// ATTENTION : DOIT TOUJOURS ETRE APPELEE AVEC cd COMME
-// PREMIERE CHAINE DU TABLEAU D ARGUMENTS
-// utilise un buffer de taille 1024 pour 
-// éviter de malloc
-// si pas pile un  argument, erreur + mise à jour de $_
-// si un argument, essaie le cd , mets a jour $_ 
-// traite les ~, - etc.. comme des chemins normaux
-// 25 LIGNES WESH :
 int	ft_cd(char **str, t_shell *shell)
 {
 	char	*pwd;

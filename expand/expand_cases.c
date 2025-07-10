@@ -60,7 +60,6 @@ void	case_env_var(t_expand *ex, char *input, t_shell *shell)
 
 	ex->i++;
 	ex->start = ex->i;
-
 	while (input[ex->i] && !ft_isspace(input[ex->i])
 		&& input[ex->i] != '"' && input[ex->i] != '\'' && input[ex->i] != '$'
 		&& (ft_isalnum(input[ex->i]) || input[ex->i] == '_'))
@@ -71,4 +70,3 @@ void	case_env_var(t_expand *ex, char *input, t_shell *shell)
 	free(varname);
 	ex->start = ex->i;
 }
-

@@ -12,11 +12,6 @@
 
 #include "../includes/minishell.h"
 
-// Renvoie 1 si l on a une chaine du type -n ou -nnnnn ou -nnnnnnnnn ...
-// Sinon renvoie 0. 
-// Teste les premiers arguments passés à ft_echo pour savoir si il y a 
-// le -n ou pas. 
-// -n enlève le \n du résultat de ft_echo
 int	is_n_flag(char *s)
 {
 	int	i;
@@ -48,7 +43,6 @@ int	ft_echo(char **str, t_shell *shell, int fd_out)
 		newline = 0;
 		i++;
 	}
-	//printf a check avec perror pour le cas de /dev/full par example
 	while (str[i])
 	{
 		ft_putstr_fd(str[i], fd_out);
@@ -58,7 +52,6 @@ int	ft_echo(char **str, t_shell *shell, int fd_out)
 	}
 	if (newline)
 		ft_putstr_fd("\n", fd_out);
-	// update_or_add("_", str[i - 1], shell, 0);
 	shell->exit_status = 0;
 	return (0);
 }
