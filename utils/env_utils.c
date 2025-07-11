@@ -37,10 +37,21 @@ int	env_var_exists(char *var, t_shell *shell)
 	return (0);
 }
 
+static void	update_existing_envvar(t_envvar *env, char *full_var,
+	char *str, t_shell *shell)
+{
+	char	*new_var;
+
+	new_var = ft_strjoin(full_var, str);
+	if (!new_var)
+		ft_clean_exit(full_var, shell, NULL, NULL);
+	free(env->var);
+	env->var = new_var;
+}
+
 void	update_env(char *var, char *str, t_shell *shell)
 {
 	char		*full_var;
-	char		*new_var;
 	t_envvar	*copy_env;
 	size_t		len;
 
@@ -53,19 +64,13 @@ void	update_env(char *var, char *str, t_shell *shell)
 	{
 		if (envvar_match(copy_env->var, var, len, full_var))
 		{
-			free(copy_env->var);
-			copy_env->var = NULL;
-			new_var = ft_strjoin(full_var, str);
-			if (!new_var)
-				ft_clean_exit(full_var, shell, NULL, NULL);
-			copy_env->var = new_var;
-			free (full_var);
+			update_existing_envvar(copy_env, full_var, str, shell);
+			free(full_var);
 			return ;
 		}
 		copy_env = copy_env->next;
 	}
-	if (full_var)
-		free(full_var);
+	free(full_var);
 }
 
 void	update_or_add(char *var, char *str, t_shell *shell, int exported)

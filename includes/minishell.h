@@ -250,5 +250,7 @@ int			is_str_digit(char *str);
 void		sigint_handler(int sig);
 void		ft_end_minishell(char *input, t_shell *shell,
 				char *str_to_free, char **arr_to_free);
+void		ft_set_shlvl(t_shell *shell, char *shlvl_str);
+void		env_min(t_shell *shell);
 
 #endif

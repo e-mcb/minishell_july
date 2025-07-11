@@ -12,6 +12,35 @@
 
 #include "../includes/minishell.h"
 
+long long	is_out_of_range(const char *nptr)
+{
+	long long			i;
+	unsigned long long	r;
+	long long			s;
+
+	i = 0;
+	r = 0;
+	s = 1;
+	while ((nptr[i] >= 9 && nptr[i] <= 13) || nptr[i] == 32)
+		i++;
+	if (nptr[i] == 45)
+	{
+		s = -1;
+		i++;
+	}
+	else if (nptr[i] == 43)
+		i++;
+	while (nptr[i] >= 48 && nptr[i] <= 57)
+	{
+		r = (r * 10) + (nptr[i] - 48);
+		i++;
+	}
+	if ((r > 9223372036854775808ULL && s == -1)
+		|| (r > 9223372036854775807ULL && s == 1))
+		return (1);
+	return (0);
+}
+
 int	ft_exit_argcheck(int c)
 {
 	if ((c >= '0') && (c <= '9'))
@@ -69,8 +98,7 @@ int	ft_exit(char **arr, t_shell *shell)
 		ft_putstr_fd("exit: too many arguments\n", 2);
 		return (1);
 	}
-	else if (!ft_is_number(arr[1]) || ft_atoll(arr[1]) < -9223372036854775807LL - 1
-		|| ft_atoll(arr[1]) > 9223372036854775807LL)
+	else if (!ft_is_number(arr[1]) || is_out_of_range(arr[1]))
 	{
 		ft_putstr_fd("exit: numeric argument required\n", 2);
 		free_before_exit(shell, NULL, NULL);
