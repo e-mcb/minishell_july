@@ -91,15 +91,14 @@ int	ft_exit(char **arr, t_shell *shell)
 	if (!arr[1])
 	{
 		free_before_exit(shell, NULL, NULL);
+		ft_putstr_fd("exit\n", 1);
 		exit(0);
 	}
 	else if (arr[1] && arr[2])
-	{
-		ft_putstr_fd("exit: too many arguments\n", 2);
-		return (1);
-	}
+		return(ft_putstr_fd("exit: too many arguments\n", 2), 1);
 	else if (!ft_is_number(arr[1]) || is_out_of_range(arr[1]))
 	{
+		ft_putstr_fd("exit\n", 2);
 		ft_putstr_fd("exit: numeric argument required\n", 2);
 		free_before_exit(shell, NULL, NULL);
 		exit(2);
@@ -108,6 +107,7 @@ int	ft_exit(char **arr, t_shell *shell)
 	{
 		exit_status = ft_atoll(arr[1]) % 256;
 		free_before_exit(shell, NULL, NULL);
+		ft_putstr_fd("exit\n", 2);
 		exit(exit_status);
 	}
 }

@@ -175,6 +175,7 @@ int			envvar_match(char *env_var, char *var, size_t len, char *full_var);
 int			ft_has_invalid_quotes(const char *str);
 int			string_error(char *input);
 int			token_error(t_shell *shell);
+void		ft_parsing(char *input, t_shell *shell);
 
 //main lexer functions
 char		**ft_split2(char const *s, char c);

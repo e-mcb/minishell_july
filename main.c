@@ -69,77 +69,25 @@ static t_shell	*init_shell(t_shell *shell, char **envp)
 	return (shell);
 }
 
-static void	ft_parsing(char *input, t_shell *shell)
+static void	end_loop(t_shell *shell)
 {
-	int		i;
-	t_token	*tmp;
+	int	i;
 
-	i = -1;
-	whitespace_to_space(input);
-	shell->splitted = ft_split2(input, ' ');
-	if (shell->splitted == NULL)
-		ft_clean_exit(input, shell, NULL, NULL);
-	free (input);
-	while (shell->splitted[++i])
-		tokenizer(shell, i);
-	if (shell->splitted != NULL)
-		ft_free_str_array(shell->splitted);
-	refine_token_type(shell->token);
-	tmp = shell->token;
-	while (tmp)
-	{
-		if (ft_strchr(tmp->value, '\'') || ft_strchr(tmp->value, '"'))
-			tmp->in_quotes = true;
-		tmp = tmp->next;
-	}
-	expand(shell);
-	second_refine_token_type(shell->token);
-	shell->splitted = NULL;
+	i = 3;
+	free_list(&shell->token);
+	free_exec_list(&(shell->exec));
+	free(shell->exec);
+	ft_free_str_array(shell->env_arr);
+	while (i < 1023)
+		close(i++);
+	shell->env_arr = NULL;
+	g_signal = 0;
 }
-
-// static void	minishell_loop(t_shell *shell)
-// {
-// 	char	*input;
-// 	// int		i;
-
-// 	// i = 3;
-// 	while (1)
-// 	{
-// 		input = prompt(shell);
-// 		if (input == NULL)
-// 			continue ;
-// 		if (string_error(input))
-// 		{
-// 			free (input);
-// 			continue ;
-// 		}
-// 		ft_parsing(input, shell);
-// // 		if (token_error(shell) == 0)
-// // 		{
-// // 			create_exec(shell);
-// // 			if(g_signal != SIGINT)
-// // 			{
-// // 				env_list_to_arr(shell);
-// // 				exec_loop(shell);
-// // 			}
-// // 		}
-// // 		free_list(&shell->token);
-// // 		free_exec_list(&(shell->exec));
-// // 		free(shell->exec);
-// // 		ft_free_str_array(shell->env_arr);
-// // 		while (i++ < 1023)
-// // 			close(i);
-// // 		shell->env_arr = NULL;
-// // 		g_signal = 0;
-// 	}
-// }
 
 static void	minishell_loop(t_shell *shell)
 {
 	char	*input;
-	int		i;
 
-	i = 3;
 	while (1)
 	{
 		input = prompt(shell);
@@ -160,14 +108,7 @@ static void	minishell_loop(t_shell *shell)
 				exec_loop(shell);
 			}
 		}
-		free_list(&shell->token);
-		free_exec_list(&(shell->exec));
-		free(shell->exec);
-		ft_free_str_array(shell->env_arr);
-		while (i++ < 1023)
-			close(i);
-		shell->env_arr = NULL;
-		g_signal = 0;
+		end_loop(shell);
 	}
 }
 
