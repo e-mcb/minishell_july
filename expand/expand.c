@@ -139,7 +139,6 @@ int	process_token(t_shell *shell, t_token **tmp, t_token **prev,
 	if (*expanded && (*expanded)[0] != 0)
 	{
 		splitted = split_keep_separators(*expanded, is_whitespace, shell);
-		print_str_array(splitted);
 		if (((*tmp)->type == FILEN && count_strings(splitted) > 1)
 			|| ((*tmp)->type == FILEN && splitted[0] == 0))
 		{

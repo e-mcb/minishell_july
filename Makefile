@@ -27,7 +27,6 @@ SRCS = main.c \
 	$(UTILS_DIR)/exec_utils1.c \
 	$(UTILS_DIR)/exec_utils2.c \
 	$(UTILS_DIR)/string_utils3.c \
-	$(UTILS_DIR)/debug_utils.c \
 	$(UTILS_DIR)/main_utils.c \
 	$(UTILS_DIR)/free_utils.c \
 	$(TOKENIZER_DIR)/tokenizer.c \

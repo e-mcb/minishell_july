@@ -190,9 +190,6 @@ void		cleanup_token(char **expanded, char ***splitted);
 t_token		*new_token_append(t_token *head, char *str,
 				t_token_type type, t_shell *shell);
 
-//utils de test
-void		print_str_array(char **arr);
-
 //builtins
 int			ft_export(char **str, t_shell *shell, int in_pipeline, int fd_out);
 int			ft_cd(char **str, t_shell *shell);
