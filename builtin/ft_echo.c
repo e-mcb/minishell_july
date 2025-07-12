@@ -46,7 +46,7 @@ int	ft_echo(char **str, t_shell *shell, int fd_out)
 	while (str[i])
 	{
 		ft_putstr_fd(str[i], fd_out);
-		if (str[i + 1])
+		if (str[i + 1] && !ft_strchr(str[i], ' '))
 			ft_putstr_fd(" ", fd_out);
 		i++;
 	}

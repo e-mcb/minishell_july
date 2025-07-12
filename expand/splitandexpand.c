@@ -28,7 +28,10 @@ static void	process_single_quote(const char *input,
 	if (ex->i > ex->start)
 		ex->result[ex->j++] = strndup_custom(input + ex->start,
 				ex->i - ex->start, shell);
-	ex->in_single_quote = !ex->in_single_quote;
+	if (ex->in_single_quote == true)
+		ex->in_single_quote = false;
+	else if (ex->in_single_quote == false)
+		ex->in_single_quote = true;
 	ex->i++;
 	ex->start = ex->i;
 }
@@ -59,7 +62,7 @@ static void	process_dollar(char *input, t_expand *ex, t_shell *shell)
 		case_question_mark(ex, shell);
 	else if (ft_isdigit(input[ex->i + 1]) || input[ex->i + 1] == '$')
 	{
-		ex->i += 2 ;
+		ex->i += 2;
 		ex->start = ex->i;
 	}
 	else
