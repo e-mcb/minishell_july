@@ -151,6 +151,7 @@ void		whitespace_to_space(char *str);
 int			ft_strcmp(char *s1, char *s2);
 char		*ft_strndup(char *s, size_t n);
 char		*remove_quotes(char *input, t_shell *shell);
+void		remove_nested_quotes(char *str);
 
 //misc utils
 void		*ft_realloc(void *ptr, int old_size, int new_size);

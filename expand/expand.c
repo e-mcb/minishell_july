@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <stdbool.h>
+#include <stdio.h>
 
 void	amb_redir(char *str, t_shell *shell)
 {
@@ -67,7 +69,7 @@ int	process_token(t_shell *shell, t_token **tmp, t_token **prev,
 
 	splitted = NULL;
 	if (!ft_strchr((*tmp)->value, '$'))
-		return (0);
+		return (remove_nested_quotes((*tmp)->value), 0);
 	*expanded = join_chars(split_and_expand((*tmp)->value, shell), shell);
 	if (*expanded && (*expanded)[0] != 0)
 	{
@@ -97,11 +99,11 @@ void	expand(t_shell *shell)
 
 	tmp = shell->token;
 	prev = NULL;
-	expanded = NULL; 
+	expanded = NULL;
 	skip = 0;
 	while (tmp)
 	{
-		skip = process_token(shell, &tmp, &prev, &expanded);  
+		skip = process_token(shell, &tmp, &prev, &expanded);
 		if (skip)
 			continue ;
 		prev = tmp;
