@@ -179,7 +179,7 @@ int			token_error(t_shell *shell);
 void		ft_parsing(char *input, t_shell *shell);
 
 //main lexer functions
-char		**ft_split2(char const *s, char c);
+char		**ft_split2(char const *s);
 void		tokenizer(t_shell *shell, int rank);
 void		refine_token_type(t_token *token);
 void		second_refine_token_type(t_token *token);
@@ -254,5 +254,6 @@ void		ft_end_minishell(char *input, t_shell *shell,
 				char *str_to_free, char **arr_to_free);
 void		ft_set_shlvl(t_shell *shell, char *shlvl_str);
 void		env_min(t_shell *shell);
+int			ft_isspace(int c);
 
 #endif
