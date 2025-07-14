@@ -58,8 +58,8 @@ void	ft_parsing(char *input, t_shell *shell)
 	t_token	*tmp;
 
 	i = -1;
-	whitespace_to_space(input);
-	shell->splitted = ft_split2(input, ' ');
+	//whitespace_to_space(input);
+	shell->splitted = ft_split2(input);
 	if (shell->splitted == NULL)
 		ft_clean_exit(input, shell, NULL, NULL);
 	free (input);
